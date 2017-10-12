@@ -8,34 +8,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\View;
 
 class ArticleController extends Controller
 {
     /**
-     * @Route("/articles/{id}", name="article_show")
+     * @Get(
+     *     path = "/articles/{id}",
+     *     name = "app_article_show",
+     *     requirements = {"id"="\d+"}
+     * )
+     * @View
      */
-    //public function showAction()
     public function showAction(Article $article)
     {
-        /*$article = new Article();
-        $article
-            ->setTitle('Mon premier article')
-            ->setContent('Le contenu de mon article.')
-        ;
-        $data = $this->get('jms_serializer')->serialize($article, 'json');
-
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;*/
-
-        $data = $this->get('jms_serializer')->serialize($article, 'json');
-
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-
+        return $article;
     }
 
     /**

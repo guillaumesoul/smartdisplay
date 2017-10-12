@@ -54,15 +54,5 @@ class ArticleController extends Controller
         return new Response('', Response::HTTP_CREATED);
     }
 
-    /*public function showAction(Article $article)
-    {
-        $data = $this->get('jms_serializer')->serialize($article, 'json');
-
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }*/
-
 
 }

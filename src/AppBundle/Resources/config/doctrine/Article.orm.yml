@@ -1,6 +1,6 @@
 AppBundle\Entity\Article:
     type: entity
-    table: product
+    table: article
     id:
         id:
             type: integer

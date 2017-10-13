@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ArticleController extends Controller
 {
@@ -27,20 +29,23 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/articles", name="article_create")
-     * @Method({"POST"})
+     * @Rest\Post(
+     *    path = "/articles",
+     *    name = "app_article_create"
+     * )
+     * @Rest\View(StatusCode = 201)
+     * @ParamConverter("article", converter="fos_rest.request_body")
      */
-    public function createAction(Request $request)
+    public function createAction(Article $article)
     {
-        $data = $request->getContent();
-        $article = $this->get('jms_serializer')->deserialize($data, 'AppBundle\Entity\Article', 'json');
-
         $em = $this->getDoctrine()->getManager();
+
         $em->persist($article);
         $em->flush();
 
-        return new Response('', Response::HTTP_CREATED);
+        return $article;
     }
+
 
 
 }

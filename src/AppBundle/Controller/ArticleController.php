@@ -12,6 +12,9 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use FOS\RestBundle\Controller\FOSRestController;
+
 
 class ArticleController extends Controller
 {
@@ -43,8 +46,21 @@ class ArticleController extends Controller
         $em->persist($article);
         $em->flush();
 
-        return $article;
+        return $this->view($article, Response::HTTP_CREATED, ['Location' => $this->generateUrl('app_article_show', ['id' => $article->getId(), UrlGeneratorInterface::ABSOLUTE_URL])]);
     }
+
+    /**
+     * @Get("/articles", name="app_article_list")
+     * @View
+     */
+    public function listAction()
+    {
+        $articles = $this->getDoctrine()->getRepository('AppBundle:Article')->findAll();
+
+        return $articles;
+    }
+
+
 
 
 
